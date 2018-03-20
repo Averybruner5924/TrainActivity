@@ -41,8 +41,36 @@ var config = {
   database.ref().orderByChild("dateAdded").limitToLast(5).on("child_added", function(childSnapshot) {
      // storing the snapshot.val() in a variable for convenience
 
-     var nextArrival
-     var minutesAway
+     var tFrequency = frequency;
+
+     var firstTime = moment.duration(startTime).asMinutes(); 
+
+    // Current Time
+
+    console.log("Time in Hours " + firstTime);
+
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTime), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    // Time apart (remainder)
+    var tRemainder = diffTime % tFrequency;
+    console.log(tRemainder);
+
+    // Minute Until Train
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+     
+     
+     var nextArrival = nextArrival;
+     var minutesAway = tMinutesTillTrain;
 
    $("#full-table").append("<tr> " +
        " <td> " + childSnapshot.val().trainName +
