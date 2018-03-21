@@ -16,7 +16,7 @@ var config = {
   var trainName = "";
   var desination = "";
   var startTime = "";
-  var frequency = "";
+  var frequency = 0;
 
   // Capture Button Click
   $("#add-user").on("click", function(event) {
@@ -43,41 +43,27 @@ var config = {
 
      var tFrequency = frequency;
 
-     var firstTime = moment.duration(startTime).asMinutes(); 
-
-    // Current Time
-
-    console.log("Time in Hours " + firstTime);
-
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+     var firstTime = moment(startTime, "HH:mm").subtract(2,"years"); 
 
     // Difference between the times
     var diffTime = moment().diff(moment(firstTime), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder)
     var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
 
     // Minute Until Train
     var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
     // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-     
-     
-     var nextArrival = nextArrival;
-     var minutesAway = tMinutesTillTrain;
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("HH:mm");
+    
 
    $("#full-table").append("<tr> " +
        " <td> " + childSnapshot.val().trainName +
        " </td><td> " + childSnapshot.val().desination +
        " </td><td> " + childSnapshot.val().frequency +
-       " </td><td> " + nextArrival +
-       " </td><td> " + minutesAway + " </tr>");
+       " </td><td> " + nextTrain +
+       " </td><td> " + tMinutesTillTrain + " </tr>");
 
 
      // Handle the errors
